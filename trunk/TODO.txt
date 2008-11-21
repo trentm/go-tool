@@ -1,0 +1,44 @@
+# High Priority
+
+- Cannot install on Mac OS X!!!
+  Nor does "go" get on the PATH for Python installs where the python exe is
+  symlink'd to!
+- Cannot install without 'logging' module (rules out Python 2.2).
+- Cannot install and run without PyWin32! Rules out python.org Python out of
+  the box. Want a mini-win32api for some of the calls that I use.
+- if $HOME is /home/trentm, but that is actually a symlink to
+  /usr/home/trentm then "go -a ..." results in usage of /usr/home/trentm --
+  which causes problems (e.g. for P4 client view, PS1 prompt "~" shortcut).
+- Running "build all" on Windows:
+
+    build: running 'python setup.py sdist -f --formats zip -d C:\trentm\tm\go\bits'
+    ...
+    adding 'go-1.0.2\.svn\README.txt'
+
+  That is wrong. It should not pick up README.txt from the svn dir.
+    
+
+# Medium Priority
+
+- Add (or respond to email on) environment support as part of dir switching.
+  C.f. email "An improvement to your 'go' tool" from Thilo Ernst in gmail.
+- Add a check to warn about updating the bash function.
+- fix MANIFEST.in processing from picking up README.txt in .svn dirs
+- add 'csh' support
+- python 2.4 usage of "python -m go" ... Bash function. This should be more
+  robust than the "which go" thing.
+- 'go -', or would that be too confusing (could just do "cd -" on shells that
+  support that)
+- tracking usage stats and "most recently used" etc.
+- compare with pushd/popd usage
+- Improve GOOBE on linux:
+    - go's auto-detection of proper environment does not check for the
+      'go' BASH function on Linux, just the presence of the
+      GO_SHELL_SCRIPT env var. This is not sufficient: I got surprised
+      by it.
+- Look at using sys.stdout.isatty() test to try to get "go ..." call
+  from the Start Menu "Run" dialog to do something useful.
+- test suite
+- getting started docs for the DQSD integration
+- figure out how Bash autocomplete works and get that to work
+

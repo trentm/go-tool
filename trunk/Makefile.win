@@ -1,0 +1,18 @@
+# A Makefile to do this: gow.cpp -> gow.exe
+
+APPNAME=gow
+
+# for release:
+CFLAGS=-D_CONSOLE -D_MBCS -DWIN32 -W3 -Ox -DNDEBUG -D_NDEBUG -MD 
+LDFLAGS=/subsystem:windows kernel32.lib user32.lib gdi32.lib advapi32.lib shlwapi.lib
+# for debug:
+#  CFLAGS = -D_CONSOLE -D_MBCS /DWIN32 /Zi /Od /DDEBUG /D_DEBUG /MDd
+#  LDFLAGS += /DEBUG
+
+$(APPNAME).exe: gow.cpp
+	cl -nologo $(CFLAGS) -c gow.cpp
+	link -nologo $(LDFLAGS) gow.obj -out:$(APPNAME).exe
+
+clean:
+	if exist gow.obj; del gow.obj
+	if exist $(APPNAME).exe; del $(APPNAME).exe
