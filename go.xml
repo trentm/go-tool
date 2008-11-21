@@ -1,0 +1,28 @@
+<search function="go">
+    <name>Go to Folders</name>
+    <description>Go to directories using shortcuts:
+        <div class="helpboxDescLabels">Example:</div> 
+        <table class="helpboxDescTable">
+            <tr> <td>go &lt;shortcut&gt;[/&lt;subpath&gt;]</td> </tr>
+        </table>
+    </description>
+    <category>ActiveState</category>
+    <link>http://starship.python.net/~tmick/#go</link>
+
+    <script><![CDATA[
+        function go(q)
+        {
+            var cmd = "gow.exe " + q;
+            try {
+                openDocument(cmd);
+            } catch (e) {
+                alert("Could not run '"+cmd+"'.")
+            }
+        }
+    ]]></script>
+
+    <copyright>
+        Copyright (c) 2003 ActiveState Corp.
+        Written by Trent Mick (TrentM@ActiveState.com)
+    </copyright>
+</search>
