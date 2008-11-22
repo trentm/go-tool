@@ -1,3 +1,14 @@
+# Brave new world
+
+- tell todd that relpaths work
+- clean up dir structure
+- nicer logging and std logging cmdln-options
+- Makefile.py
+- google code release
+- pypi release (problems with script on path?)
+- update trentm.com/projects/... accordingly
+- re-org everything below here
+
 # High Priority
 
 - Cannot install on Mac OS X!!!
