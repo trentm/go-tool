@@ -1,6 +1,5 @@
 # Brave new world
 
-- tell todd that relpaths work
 - clean up dir structure
 - nicer logging and std logging cmdln-options
 - Makefile.py
