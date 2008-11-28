@@ -1,11 +1,15 @@
 # Brave new world
 
-- clean up dir structure
+- get setup.py install working on all plats (and with supported vers)
+- pypi
+- easier install support (auto-add go.bat and bash script)
 - nicer logging and std logging cmdln-options
 - Makefile.py
 - google code release
 - pypi release (problems with script on path?)
 - update trentm.com/projects/... accordingly
+- restore the DQSD install support. Perhaps just a separate install script
+  in src/dqsd?
 - re-org everything below here
 
 # High Priority
