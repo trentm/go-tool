@@ -43,15 +43,13 @@
 
     See <http://trentm.com/projects/go> for more information.
 """
-#Tech Notes:
-#   - Shortcuts are stored in an XML file in your AppData folder.
-#     On Windows this is typically:
-#       <AppDataDir>\TrentMick\go\shortcuts.xml
-#     On Linux (or other UN*X systems) this is typically:
-#       ~/.go/shortcuts.xml
-#
+# Dev Notes:
+# - Shortcuts are stored in an XML file in your AppData folder.
+#   On Windows this is typically:
+#     <AppDataDir>\TrentMick\go\shortcuts.xml
+#   On Linux (or other UN*X systems) this is typically:
+#     ~/.go/shortcuts.xml
 
-__revision__ = "$Id: go.py 700 2005-12-13 21:24:24Z trentm $"
 __version_info__ = (1, 0, 6)
 __version__ = '.'.join(map(str, __version_info__))
 
@@ -332,34 +330,31 @@ def main(argv):
         if _subsystem == "windows":
             pass # Don't complain about missing console setup.
         elif sys.platform.startswith('win'):
-            sys.stderr.write("""\
+            sys.stderr.write("""* * *
 It appears that 'go' is not setup properly in your environment. Typing
 'go' should end up calling go.bat somewhere on your PATH and *not* go.py
 directly. Both go.bat and go.bat should be installed automatically by
 the setup.py script.
+* * *
 """)
             return 1
         else:
-            sys.stderr.write(r"""\
+            sys.stderr.write(r"""* * *
 It appears that 'go' is not setup properly in your environment.  If you
 are using the Bash shell you should have the following function in your
 environment:
 
     function go {
-        go_is_on_path="`\which go`"
-        if test -e "$go_is_on_path"; then
-            export GO_SHELL_SCRIPT=$HOME/.__tmp_go.sh
-            python `\which go` $*
-            if [ -f $GO_SHELL_SCRIPT ] ; then
-                source $GO_SHELL_SCRIPT
-            fi
-        else
-            echo "ERROR: could not find 'go' on your PATH"
+        export GO_SHELL_SCRIPT=$HOME/.__tmp_go.sh
+        python -m go $*
+        if [ -f $GO_SHELL_SCRIPT ] ; then
+            source $GO_SHELL_SCRIPT
         fi
     }
 
 You should add the above function to your ~/.bashrc file or just cut and
 paste the function into your current shell.
+* * *
 """)
             return 1
     else:
@@ -439,6 +434,7 @@ paste the function into your current shell.
     elif action == "cd":
         if len(args) != 1:
             error("Incorrect number of arguments. argv: %s" % argv)
+            #error("Usage: go [options...] shortcut[/subpath]")
             return 1
         path = args[0]
         if _subsystem == "console":

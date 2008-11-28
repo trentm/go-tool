@@ -1,15 +1,18 @@
 # Brave new world
 
-- get setup.py install working on all plats (and with supported vers)
-- pypi
+- get setup.py install working on all plats
+- conventions for specifying min Python version? min Py ver is 2.4 here
+  (for `python -m` support).
 - easier install support (auto-add go.bat and bash script)
 - nicer logging and std logging cmdln-options
 - Makefile.py
 - google code release
 - pypi release (problems with script on path?)
 - update trentm.com/projects/... accordingly
+- optparse
 - restore the DQSD install support. Perhaps just a separate install script
   in src/dqsd?
+- drop win9x-isms
 - re-org everything below here
 
 # High Priority
@@ -34,13 +37,12 @@
 
 # Medium Priority
 
+- better error message when incorrect number of args
 - Add (or respond to email on) environment support as part of dir switching.
   C.f. email "An improvement to your 'go' tool" from Thilo Ernst in gmail.
 - Add a check to warn about updating the bash function.
 - fix MANIFEST.in processing from picking up README.txt in .svn dirs
 - add 'csh' support
-- python 2.4 usage of "python -m go" ... Bash function. This should be more
-  robust than the "which go" thing.
 - 'go -', or would that be too confusing (could just do "cd -" on shells that
   support that)
 - tracking usage stats and "most recently used" etc.
