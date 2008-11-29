@@ -54,6 +54,7 @@ __version_info__ = (1, 0, 6)
 __version__ = '.'.join(map(str, __version_info__))
 
 import os
+from os.path import splitext, expanduser, join, exists
 import sys
 import getopt
 import re
@@ -69,7 +70,7 @@ class GoError(Exception):
 
 class InternalGoError(GoError):
     def __str__(self):
-        return Error.__str__(self) + """
+        return GoError.__str__(self) + """
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 * Please log a bug at                                 *
@@ -92,15 +93,14 @@ if sys.platform.startswith("win") and\
     
     
 _gDriverFromShell = {
-    "cmd": """
+    "cmd": """\
 @echo off
 rem Windows shell driver for 'go' (http://code.google.com/p/go-tool/).
 set GO_SHELL_SCRIPT=%TEMP%\__tmp_go.bat
 call python -m go %1 %2 %3 %4 %5 %6 %7 %8 %9
 if exist %GO_SHELL_SCRIPT% call %GO_SHELL_SCRIPT%
-set GO_SHELL_SCRIPT=
-""",
-    "bash": """
+set GO_SHELL_SCRIPT=""",
+    "sh": """\
 # Bash shell driver for 'go' (http://code.google.com/p/go-tool/).
 function go {
     export GO_SHELL_SCRIPT=$HOME/.__tmp_go.sh
@@ -108,8 +108,8 @@ function go {
     if [ -f $GO_SHELL_SCRIPT ] ; then
         source $GO_SHELL_SCRIPT
     fi
-}
-""",
+    unset GO_SHELL_SCRIPT
+}""",
 }
 
 
@@ -357,12 +357,15 @@ def _getShell():
     if sys.platform == "win32":
         #assert "cmd.exe" in os.environ["ComSpec"]
         return "cmd"
-    elif "BASH" in os.environ:
-        return "bash"
-    elif "tcsh" in os.environ:
-        return "csh"
+    elif "SHELL" in os.environ:
+        shell_path = os.environ["SHELL"]
+        if "/bash" in shell_path or "/sh" in shell_path:
+            return "sh"
+        elif "/tcsh" in shell_path or "/csh" in shell_path:
+            return "csh"
     else:
-        raise InternalGoError("couldn't determine your shell")
+        raise InternalGoError("couldn't determine your shell (SHELL=%r)"
+                              % os.environ.get("SHELL"))
 
 def setup():
     from os.path import normcase, normpath, join
@@ -434,6 +437,45 @@ your PATH:
                 print "\nCreating `%s'." % path
                 print "You should now be able to run `go --help'."
                 open(path, 'w').write(driver)
+    elif shell == "sh":
+        print """\
+It appears that `go' is not setup properly in your environment. Typing
+`go' must end up calling the Bash function `go' and *not* `go.py'
+directly. This is how `go' can change the directory in your current shell.
+
+You'll need to have the following function in your shell startup script
+(e.g. `.bashrc' or `.profile'):
+
+%s
+
+To just play around in your current shell, simple cut and paste this
+function.""" % _indent(driver)
+
+        candidates = ["~/.bashrc", "~/.bash_profile", "~/.bash_login",
+                      "~/.profile"]
+        candidates = [c for c in candidates if exists(expanduser(c))]
+        if candidates:
+            q = """\
+Would you like this script to append `function go' to one of the following
+Bash initialization scripts? If so, enter the number of the listed file.
+Otherwise, enter `no'."""
+            for i, path in enumerate(candidates):
+                q += "\n (%d) %s" % (i+1, path)
+            answers = [str(i+1) for i in range(len(candidates))] + ["&no"]
+            print
+            answer = _query_custom_answers(q, answers, default="no")
+            if answer == "no":
+                pass
+            else:
+                path = candidates[int(answer)-1]
+                f = codecs.open(path, 'a', 'utf-8')
+                try:
+                    f.write('\n'+driver)
+                finally:
+                    f.close()
+                print "`function go' appended to `%s'." % path
+                print "Run `source %s` to enable this for this shell."
+                print "You should then be able to run `go --help'."
     else:
         #TODO: other shells
         XXX
@@ -541,35 +583,6 @@ def main(argv):
         if _subsystem == "windows":
             pass # Don't complain about missing console setup.
         return setup()
-#        XXX
-#        if sys.platform.startswith('win'):
-#            sys.stderr.write("""* * *
-#It appears that 'go' is not setup properly in your environment. Typing
-#'go' should end up calling go.bat somewhere on your PATH and *not* go.py
-#directly. Both go.bat and go.py should be installed automatically by
-#the setup.py script.
-#* * *
-#""")
-#            return 1
-#        else:
-#            sys.stderr.write(r"""* * *
-#It appears that 'go' is not setup properly in your environment.  If you
-#are using the Bash shell you should have the following function in your
-#environment:
-#
-#    function go {
-#        export GO_SHELL_SCRIPT=$HOME/.__tmp_go.sh
-#        python -m go $*
-#        if [ -f $GO_SHELL_SCRIPT ] ; then
-#            source $GO_SHELL_SCRIPT
-#        fi
-#    }
-#
-#You should add the above function to your ~/.bashrc file or just cut and
-#paste the function into your current shell.
-#* * *
-#""")
-#            return 1
     else:
         generateShellScript(shellScript) # no-op, overwrite old one
 

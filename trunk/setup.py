@@ -39,10 +39,6 @@ if sys.version_info < (2, 3):
         _setup(**kwargs)
 
 doclines = __doc__.split("\n")
-if sys.platform == "win32":
-    scripts = ["lib\\go.py", "bin\\go.bat"]
-else:
-    scripts = ["bin/go"]
 
 setup(
     name="go",
@@ -54,7 +50,6 @@ setup(
     platforms=["any"],
     py_modules=["go"],
     package_dir={"": "lib"},
-    scripts=scripts,
     description=doclines[0],
     classifiers=filter(None, classifiers.split("\n")),
     long_description="\n".join(doclines[2:]),
