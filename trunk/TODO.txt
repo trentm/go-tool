@@ -1,19 +1,26 @@
 # Brave new world
 
-- get setup.py install working on all plats
-- conventions for specifying min Python version? min Py ver is 2.4 here
-  (for `python -m` support).
-- easier install support (auto-add go.bat and bash script)
-- nicer logging and std logging cmdln-options
-- Makefile.py
 - google code release
 - pypi release (problems with script on path?)
+- get setup.py install working on all plats:
+    - update to pypi then check
+    - Windows: check again
+    - Mac OS X: check on clean machine
+    - Linux: check on clean machine
 - update trentm.com/projects/... accordingly
+    - s/build.py/Makefile.py/
+- re-org everything below here
+- nicer logging and std logging cmdln-options
 - optparse
+- play with "go --check-for-updates" to auto-update, if reasonable, or just
+  let know about update. Cheesy.
+- drop '-c|-cd' option? Redundant
+- improve `mk check_version` 
 - restore the DQSD install support. Perhaps just a separate install script
   in src/dqsd?
 - drop win9x-isms
-- re-org everything below here
+- conventions for specifying min Python version? min Py ver is 2.4 here
+  (for `python -m` support).
 
 # High Priority
 
