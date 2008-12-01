@@ -260,12 +260,14 @@ def target_clean():
                 os.unlink(file)
 
 
+#MOVED
 def target_gow_launcher():
     """Build the Windows 'gow.exe' launcher exe for DQSD integration."""
     log.info("target: gow_launcher")
     assert sys.platform == "win32", "'gow_launcher' target only supported on Windows"
     _run("nmake -f Makefile.win")
 
+#DROPPED
 def target_go_script():
     """Rename the go script as appropriate for linux."""
     log.info("target: go_script")
@@ -273,6 +275,7 @@ def target_go_script():
     shutil.copy("go.py", "go")
 
 
+#MOVED
 def target_docs():
     """Regenerate some doc bits from project-info.xml."""
     log.info("target: docs")

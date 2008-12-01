@@ -75,7 +75,7 @@ and
 Think of it as a super `cd`. 
 
 On Windows, `go` also integrates with the [Dave's Quick Search
-Deskbar](http://www.dqsd.net/), and excellent tool itself.  As well,
+Deskbar](http://www.dqsd.net/), an excellent tool itself.  As well,
 the `-o` allows you to open your named shortcut in Explorer.
 
 `go` is free (MIT License).  Please send any feedback to [Trent
