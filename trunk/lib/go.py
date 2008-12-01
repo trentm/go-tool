@@ -1,10 +1,7 @@
 #!/usr/bin/env python
-# Copyright (c) 2002-2005 ActiveState Corp.
-# See LICENSE.txt for license details.
-# Author:
-#   Trent Mick (TrentM@ActiveState.com)
-# Home:
-#   http://trentm.com/projects/go/
+# Copyright (c) 2002-2008 ActiveState Software.
+# License: MIT License.
+# Author: Trent Mick (trentm at google's mail thing)
 
 """
     Quick directory changing.
@@ -12,7 +9,7 @@
     Usage:
         go <shortcut>[/sub/dir/path]    # change directories
                                         # same as "go -c ..."
-        go -c|-o|-a|-d|-s ...           # cd to, open, add, delete, set
+        go -c|-o|-a|-d|-s ...           # cd, open, add, delete, set
         go --list [<pattern>]           # list matching shortcuts
 
     Options:
@@ -41,7 +38,7 @@
     As well, you can always use some standard shortcuts, such as '~'
     (home) and '...' (up two dirs).
 
-    See <http://trentm.com/projects/go> for more information.
+    See <http://code.google.com/p/go-tool/> for more information.
 """
 # Dev Notes:
 # - Shortcuts are stored in an XML file in your AppData folder.
@@ -50,7 +47,7 @@
 #   On Linux (or other UN*X systems) this is typically:
 #     ~/.go/shortcuts.xml
 
-__version_info__ = (1, 0, 6)
+__version_info__ = (1, 1, 0)
 __version__ = '.'.join(map(str, __version_info__))
 
 import os
@@ -59,6 +56,7 @@ import sys
 import getopt
 import re
 import pprint
+import codecs
 import xml.dom.minidom
 
 
@@ -324,7 +322,7 @@ def printShortcuts(shortcuts, subheader=None):
         table += '\n' + title + ":\n"
         for shortcut in grouped[title]:
             dir = shortcuts[shortcut]
-            #XXX Might want to prettily shorten long names.
+            #TODO: Might want to prettily shorten long names.
             #if len(dir) > 53:
             #    dir = dir[:50] + "..."
             table += "  %-20s  %s\n" % (shortcut, dir)
@@ -468,18 +466,33 @@ Otherwise, enter `no'."""
                 pass
             else:
                 path = candidates[int(answer)-1]
-                f = codecs.open(path, 'a', 'utf-8')
+                xpath = expanduser(path)
+                f = codecs.open(xpath, 'a', 'utf-8')
                 try:
-                    f.write('\n'+driver)
+                    f.write('\n\n'+driver)
                 finally:
                     f.close()
+                print
                 print "`function go' appended to `%s'." % path
-                print "Run `source %s` to enable this for this shell."
+                print "Run `source %s` to enable this for this shell." % path
                 print "You should then be able to run `go --help'."
     else:
-        #TODO: other shells
-        XXX
-    
+        print """\
+It appears that `go' is not setup properly in your environment. Typing
+`go' must end up calling the shell function `go' and *not* `go.py'
+directly. This is how `go' can change the directory in your current shell.
+
+The appropriate function for the *Bash* shell is this:
+
+%s
+
+If you know the appropriate translation for your shell (%s) I'd appreciate
+your feedback on that so I can update this script. Please add an issue here:
+
+    http://code.google.com/p/go-tool/issues/list
+
+Thanks!""" % (_indent(_gDriverFromShell["sh"]), shell)
+
     print "* * *"
 
 
