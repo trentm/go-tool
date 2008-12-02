@@ -20,13 +20,13 @@ try:
 finally:
     del sys.path[0]
 
-#TODO: Operating System classifiers
-#  Operating System :: OS Independent
 classifiers = """\
 Development Status :: 5 - Production/Stable
+Environment :: Console
 Intended Audience :: Developers
 License :: OSI Approved :: MIT License
-Programming Language :: Python
+Operating System :: OS Independent
+Programming Language :: Python :: 2
 Topic :: Software Development :: Libraries :: Python Modules
 """
 
@@ -45,7 +45,7 @@ setup(
     version=go.__version__,
     maintainer="Trent Mick",
     maintainer_email="trentm@gmail.com",
-    url="http://code.google.com/p/python-markdown2/",
+    url="http://code.google.com/p/go-tool/",
     license="http://www.opensource.org/licenses/mit-license.php",
     platforms=["any"],
     py_modules=["go"],
