@@ -116,6 +116,7 @@ listing the shortcuts you've created:
 
     Custom shortcuts:
       cgi-bin               /Library/WebServer/CGI-Executables
+      koappdata             /Users/trentm/Library/Application Support/Komodo
       pyinstall             /Library/Frameworks/Python.framework/Versions/2.6
       staging               /Users/trentm/Sites/staging
       www                   /Users/trentm/Sites
