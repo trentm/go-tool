@@ -12,6 +12,7 @@ from os.path import join, dirname, normpath, abspath, exists, basename
 import re
 import webbrowser
 
+from mklib.common import MkError
 from mklib import Task
 from mklib import sh
 
@@ -31,14 +32,16 @@ class site(Task):
 class clean(Task):
     """Clean generated files and dirs."""
     def make(self):
-        sh.rm("dist")
-        sh.rm("build")
-        sh.rm("MANIFEST")
+        for name in ["dist", "build", "MANIFEST"]:
+            path = join(self.dir, name)
+            if exists(path):
+                sh.rm(path)
 
 class sdist(Task):
     """python setup.py sdist"""
     def make(self):
-        sh.run_in_dir("%spython setup.py sdist" % _setup_command_prefix(),
+        sh.run_in_dir("%spython setup.py sdist -f --formats zip"
+                        % _setup_command_prefix(),
                       self.dir, self.log.debug)
 
 class webdist(Task):
@@ -90,11 +93,10 @@ class webdist(Task):
 
 class pypi(Task):
     """Update release to pypi."""
-    deps = ["sdist"]
     def make(self):
         tasks = (sys.platform == "win32"
-                 and "sdist bdist_wininst upload"
-                 or "sdist upload")
+                 and "sdist --formats zip bdist_wininst upload"
+                 or "sdist --formats zip upload")
         sh.run_in_dir("%spython setup.py %s" % (_setup_command_prefix(), tasks),
                       self.dir, self.log.debug)
 
@@ -104,25 +106,25 @@ class pypi(Task):
         webbrowser.open_new(url)
 
 class googlecode_upload(Task):
-    """Update sdist to Google Code project site."""
+    """Upload sdist to Google Code project site."""
     deps = ["sdist"]
     def make(self):
         try:
             import googlecode_upload
         except ImportError:
-            raise MakeError("couldn't import `googlecode_upload` (get it from http://support.googlecode.com/svn/trunk/scripts/googlecode_upload.py)")
+            raise MkError("couldn't import `googlecode_upload` (get it from http://support.googlecode.com/svn/trunk/scripts/googlecode_upload.py)")
+
         sys.path.insert(0, join(self.dir, "lib"))
         import go
-
+        sdist_path = join(self.dir, "dist", "go-%s.tar.gz" % go.__version__)
         status, reason, url = googlecode_upload.upload_find_auth(
             sdist_path,
             "go-tool", # project_name
-            "go %s source package" % go.version, # summary
-            #TODO: appropriate labels, e.g. "featured"
-            None) # labels
+            "go %s source package" % go.__version__, # summary
+            ["Featured", "Type-Archive"]) # labels
         if not url:
-            raise MakeError("couldn't upload sdsit to Google Code: %s (%s)"
-                            % (reason, status))
+            raise MkError("couldn't upload sdsit to Google Code: %s (%s)"
+                          % (reason, status))
         self.log.info("uploaded sdist to `%s'", url)
 
         project_url = "http://code.google.com/p/go-tool/"
