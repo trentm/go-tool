@@ -2,24 +2,24 @@ go -- quick directory switching
 ===============================
 
 Download the latest go packages from here:
-    (source) http://trentm.com/downloads/go/1.0.6/go-1.0.6.zip
+    (source) http://trentm.com/downloads/go/1.1.0/go-1.1.0.zip
 
 
 Home            : http://trentm.com/projects/go/
 License         : MIT (see LICENSE.txt)
 Platforms       : Windows, Linux, Mac OS X, Unix
-Current Version : 1.0.6
+Current Version : 1.1
 Dev Status      : mature
-Requirements    : Python >= 2.2 (http://www.activestate.com/ActivePython/)
+Requirements    : Python >= 2.4 (http://www.activestate.com/ActivePython/)
 
 
 What's new?
 -----------
 
-I have moved hosting of `go.py` from my old [Starship
-pages](http://starship.python.net/~tmick/) to this site. These starter
-docs have been improved a little bit. See the [Change Log](#changelog)
-below for more.
+I have moved hosting of `go.py` from my [personal
+pages](http://trentm.com/projects/) to the [go-tool Google Code
+project](http://code.google.com/p/go-tool/).  See the [Change
+Log](#changelog) below for more.
 
 
 Why go?
@@ -41,12 +41,8 @@ and
 
 Think of it as a super `cd`. 
 
-On Windows, `go` also integrates with the [Dave's Quick Search
-Deskbar](http://www.dqsd.net/), an excellent tool itself.  As well,
-the `-o` allows you to open your named shortcut in Explorer.
-
 `go` is free (MIT License).  Please send any feedback to [Trent
-Mick](mailto:TrentM@ActiveState.com).
+Mick](mailto:trentm@google's mail thing).
 
 
 Install Notes
@@ -55,38 +51,14 @@ Install Notes
 Download the latest (1) `go` source package, (2) unzip it, and (3) run
 `python setup.py install` in the unzipped directory:
 
+    #TODO: update with pypi instructions
     unzip go-1.0.6.zip
     cd go-1.0.6
     python setup.py install
+    python -m go   # to setup shell integration
 
 If your install fails then please visit [the Troubleshooting
 FAQ](http://trentm.com/faq.html#troubleshooting-python-package-installation).
-
-For Linux/Mac OS X/Unix uses you need to setup a little function in
-your shell environment so that 'go' can change your shell's current
-directory. If you use the Bash shell, put the following in your
-`~/.bashrc` file:
-
-    function go {
-        go_is_on_path="`\which go`"
-        if test -e "$go_is_on_path"; then
-            export GO_SHELL_SCRIPT=$HOME/.__tmp_go.sh
-            python `\which go` $*
-            if [ -f $GO_SHELL_SCRIPT ] ; then
-                source $GO_SHELL_SCRIPT
-            fi
-        else
-            echo "ERROR: could not find 'go' on your PATH"
-        fi
-    }
-
-If you use CSH (or TCSH or similar), [pester me to add CSH
-support](mailto:trentm@activestate.com). 
-
-For Windows users that is it for basic installation. If you use
-[Dave's Quick Search Deskbar](http://www.dqsd.net/) -- and you should
--- the `setup.py` script should have installed a DQSD `go` command
-(i.e., a `go.xml` file in your DQSD `localsearches` folder).
 
 
 Getting Started
@@ -110,22 +82,16 @@ listing the shortcuts you've created:
       ~                     /Users/trentm
 
     Custom shortcuts:
-      apy                   /Users/trentm/as/main/Apps/ActivePython-devel
       cgi-bin               /Library/WebServer/CGI-Executables
-      ko                    /Users/trentm/as/main/Apps/Komodo-devel
-      koappdata             /Users/trentm/Library/Application Support/Komodo
-      moz                   /Users/trentm/as/main/Apps/Mozilla-devel
-      pyinstall             /Library/Frameworks/Python.framework/Versions/2.4
-      pylib                 /System/Library/Frameworks/Python.framework/Versions/2.3/lib/python2.3
+      pyinstall             /Library/Frameworks/Python.framework/Versions/2.6
       staging               /Users/trentm/Sites/staging
       www                   /Users/trentm/Sites
 
 and switching to directories using those shortcuts:
 
-    [~]$ go ko
-    [~/as/main/Apps/Komodo-devel]$ go koappdata
-    [~/Library/Application Support/Komodo]$ go moz/support
-    [~/as/main/Apps/Mozilla-devel/support]$
+    [~]$ go pyinstall
+    [/Library/Frameworks/Python.framework/Versions/2.6]$ go www
+    [~/Sites]$ 
 
 Run `go --help` for full usage details or just [take a look at the
 `go.py` script](go.py):
@@ -136,7 +102,7 @@ Run `go --help` for full usage details or just [take a look at the
     Usage:
         go <shortcut>[/sub/dir/path]    # change directories
                                         # same as "go -c ..."
-        go -c|-o|-a|-d|-s ...           # cd to, open, add, delete, set
+        go -c|-o|-a|-d|-s ...           # cd, open, add, delete, set
         go --list [<pattern>]           # list matching shortcuts
 
     Options:
@@ -170,6 +136,13 @@ Run `go --help` for full usage details or just [take a look at the
 
 Change Log
 ----------
+
+### v1.1.0
+- Move to 'go-tool' Google Code project. (Couldn't use "go" because
+  Google Code requires minimum 4 (or 3?) characters for a project
+  name.)
+- Add automatic setup code to assist with setting up the shell
+  integration drivers.
 
 ### v1.0.6
 - Redo changes to 'function go' that were made in version 1.0.4 so

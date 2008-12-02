@@ -283,6 +283,7 @@ def target_docs():
     _run("projinfo -f project-info.xml --index-markdown -o index.markdown --force")
 
 
+#MOVED: though not .zip
 def target_sdist():
     """Build a source distribution."""
     log.info("target: sdist")
@@ -292,6 +293,7 @@ def target_sdist():
          log.info)
 
 
+#MOVED
 def target_webdist():
     """Build a web dist package.
     
