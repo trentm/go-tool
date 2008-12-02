@@ -14,7 +14,7 @@
 <div class="download-box">
 <strong>Download</strong>
 <ul>
-<li> <a href="http://trentm.com/downloads/go/1.1.0/go-1.1.0.zip">go 1.1 source package</a> </li>
+<li> <a href="http://go-tool.googlecode.com/files/go-1.1.0.zip">go 1.1 archive package</a> </li>
 </ul> </div>
 
 <table class="attrlist">
@@ -81,12 +81,12 @@ Mick](mailto:trentm@google's mail thing).
 <h2 id="installnotes">Install Notes</h2>
 
 
-Download the latest (1) `go` source package, (2) unzip it, and (3) run
-`python setup.py install` in the unzipped directory:
+Download the latest (1) `go` source package, (2) unzip it, (3) run
+`python setup.py install` in the unzipped directory, and (4) run
+`python -m go` to setup the shell driver:
 
-    #TODO: update with pypi instructions
-    unzip go-1.0.6.zip
-    cd go-1.0.6
+    unzip go-1.1.0.zip
+    cd go-1.1.0
     python setup.py install
     python -m go   # to setup shell integration
 
