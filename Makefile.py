@@ -99,7 +99,6 @@ class pypi(Task):
                       self.dir, self.log.debug)
 
         sys.path.insert(0, join(self.dir, "lib"))
-        XXX # Can I get this project name? Or should I use 'go-tool'?
         url = "http://pypi.python.org/pypi/go/"
         import webbrowser
         webbrowser.open_new(url)
