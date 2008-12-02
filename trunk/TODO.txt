@@ -1,7 +1,7 @@
 # Brave new world
 
 - google code release
-- pypi release (problems with script on path?)
+- pypi release
 - get setup.py install working on all plats:
     - update to pypi then check
     - Windows: check again
@@ -9,6 +9,8 @@
     - Linux: check on clean machine
 - update trentm.com/projects/... accordingly
     - s/build.py/Makefile.py/
+- test with old drivers and version of script in the way. Do the install
+  instructions result in the right thing?
 - re-org everything below here
 - nicer logging and std logging cmdln-options
 - optparse

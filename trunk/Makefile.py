@@ -1,5 +1,4 @@
 
-#TODO: START HERE: xlate for go
 """Makefile for the go project.
 
 ${common_task_list}
@@ -14,7 +13,7 @@ import re
 import webbrowser
 
 from mklib import Task
-from mklib.sh import run_in_dir, run
+from mklib import sh
 
 
 
@@ -28,11 +27,66 @@ class site(Task):
     def make(self):
         webbrowser.open("http://code.google.com/p/go-tool/")
 
+
+class clean(Task):
+    """Clean generated files and dirs."""
+    def make(self):
+        sh.rm("dist")
+        sh.rm("build")
+        sh.rm("MANIFEST")
+
 class sdist(Task):
     """python setup.py sdist"""
     def make(self):
-        run_in_dir("%spython setup.py sdist" % _setup_command_prefix(),
-                   self.dir, self.log.debug)
+        sh.run_in_dir("%spython setup.py sdist" % _setup_command_prefix(),
+                      self.dir, self.log.debug)
+
+class webdist(Task):
+    """Build a web dist package for trentm.com/projects/
+    
+    "Web dist" packages are zip files with '.web' extension. All files in
+    the zip must be under a dir named after the project. There must be a
+    webinfo.xml file at <projname>/webinfo.xml. This file is "defined"
+    by the parsing in trentm.com/build.py.
+    """ 
+    deps = ["docs"]
+
+    @property
+    def proj_ver(self):
+        sys.path.insert(0, join(self.dir, "lib"))
+        try:
+            import go
+            return go.__version__
+        finally:
+            del sys.path[0]
+
+    def make(self):
+        assert sys.platform != "win32", "'webdist' not implemented for win32"
+        build_dir = join(self.dir, "build", "webdist")
+        zip_dir = join(build_dir, "go")
+        if exists(build_dir):
+            sh.rm(build_dir)
+        os.makedirs(zip_dir)
+
+        # Copy the webdist bits to the build tree.
+        manifest = [
+            "src/trentm.com/project-info.xml",
+            "src/trentm.com/index.markdown",
+            "LICENSE.txt",
+            "lib/go.py",
+            "src/trentm.com/logo.jpg",
+        ]
+        for src in manifest:
+            sh.cp(src, dstdir=zip_dir, log=self.log.info)
+
+        # Zip up the webdist contents.
+        dist_dir = join(self.dir, "dist")
+        bit = abspath(join(dist_dir, "go-%s.web" % self.proj_ver))
+        if exists(bit):
+            os.remove(bit)
+        if not exists(dist_dir):
+            os.makedirs(dist_dir)
+        sh.run_in_dir("zip -r %s go" % bit, build_dir, self.log.info)
 
 class pypi(Task):
     """Update release to pypi."""
@@ -41,8 +95,8 @@ class pypi(Task):
         tasks = (sys.platform == "win32"
                  and "sdist bdist_wininst upload"
                  or "sdist upload")
-        run_in_dir("%spython setup.py %s" % (_setup_command_prefix(), tasks),
-                   self.dir, self.log.debug)
+        sh.run_in_dir("%spython setup.py %s" % (_setup_command_prefix(), tasks),
+                      self.dir, self.log.debug)
 
         sys.path.insert(0, join(self.dir, "lib"))
         XXX # Can I get this project name? Or should I use 'go-tool'?
@@ -98,17 +152,17 @@ class gow(Task):
     """Build the Windows 'gow.exe' launcher exe for DQSD integration."""
     def make(self):
         assert sys.platform == "win32", "can only build `gow.exe' on Windows"
-        run_in_dir("nmake -f Makefile.win", join("src", "dqsd"))
+        sh.run_in_dir("nmake -f Makefile.win", join("src", "dqsd"))
 
 class docs(Task):
     """Regenerate some doc bits from project-info.xml."""
     def make(self):
         project_info_xml = join("src", "trentm.com", "project-info.xml")
         index_markdown = join("src", "trentm.com", "index.markdown")
-        run_in_dir("projinfo -f %s -R -o README.txt --force"
-                   % project_info_xml, self.dir)
-        run_in_dir("projinfo -f %s --index-markdown -o %s --force"
-                   % (project_info_xml, index_markdown), self.dir)
+        sh.run_in_dir("projinfo -f %s -R -o README.txt --force"
+                      % project_info_xml, self.dir)
+        sh.run_in_dir("projinfo -f %s --index-markdown -o %s --force"
+                      % (project_info_xml, index_markdown), self.dir)
 
 class check_version(Task):
     """grep for version strings in source code
@@ -122,8 +176,8 @@ class check_version(Task):
     ]
     def make(self):
         pattern = r'[0-9]\+\(\.\|, \)[0-9]\+\(\.\|, \)[0-9]\+'
-        run_in_dir('grep -n "%s" %s' % (pattern, ' '.join(self.sources)),
-                   self.dir)
+        sh.run_in_dir('grep -n "%s" %s' % (pattern, ' '.join(self.sources)),
+                      self.dir)
 
 
 #---- internal support stuff

@@ -1,1 +1,2 @@
-include *.py *.bat *.in *.txt Makefile* *.xml *.jpg *.cpp gow.exe go
+include *.py *.in *.txt
+exclude build.py
