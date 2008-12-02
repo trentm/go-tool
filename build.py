@@ -338,12 +338,14 @@ def target_webdist():
     _run_in_dir("zip -r %s %s" % (bit, _project_name_), buildDir, log.info)
 
 
+#DROPPED
 def target_install():
     """Use the setup.py script to install."""
     log.info("target: install")
     _run("python setup.py install")
 
 
+#DROPPED
 def target_upload_local():
     """Upload release bits to *local* trentm.com bits-dir location.
     
@@ -413,6 +415,7 @@ def target_upload():
              log.info)
 
 
+#MOVED
 def target_check_version():
     """grep for version strings in source code
     

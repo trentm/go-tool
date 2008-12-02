@@ -1,7 +1,5 @@
 # Brave new world
 
-- google code release
-- pypi release
 - get setup.py install working on all plats:
     - update to pypi then check
     - Windows: check again

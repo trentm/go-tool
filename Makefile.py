@@ -54,14 +54,8 @@ class webdist(Task):
     """ 
     deps = ["docs"]
 
-    @property
-    def proj_ver(self):
-        sys.path.insert(0, join(self.dir, "lib"))
-        try:
-            import go
-            return go.__version__
-        finally:
-            del sys.path[0]
+    def results(self):
+        yield join(self.dir, "dist", "go-%s.web" % _get_version())
 
     def make(self):
         assert sys.platform != "win32", "'webdist' not implemented for win32"
@@ -84,15 +78,15 @@ class webdist(Task):
 
         # Zip up the webdist contents.
         dist_dir = join(self.dir, "dist")
-        bit = abspath(join(dist_dir, "go-%s.web" % self.proj_ver))
+        bit = abspath(join(dist_dir, "go-%s.web" % _get_version()))
         if exists(bit):
             os.remove(bit)
         if not exists(dist_dir):
             os.makedirs(dist_dir)
         sh.run_in_dir("zip -r %s go" % bit, build_dir, self.log.info)
 
-class pypi(Task):
-    """Update release to pypi."""
+class pypi_upload(Task):
+    """Upload release to pypi."""
     def make(self):
         tasks = (sys.platform == "win32"
                  and "sdist --formats zip bdist_wininst upload"
@@ -114,13 +108,12 @@ class googlecode_upload(Task):
         except ImportError:
             raise MkError("couldn't import `googlecode_upload` (get it from http://support.googlecode.com/svn/trunk/scripts/googlecode_upload.py)")
 
-        sys.path.insert(0, join(self.dir, "lib"))
-        import go
-        sdist_path = join(self.dir, "dist", "go-%s.zip" % go.__version__)
+        ver = _get_version()
+        sdist_path = join(self.dir, "dist", "go-%s.zip" % ver)
         status, reason, url = googlecode_upload.upload_find_auth(
             sdist_path,
             "go-tool", # project_name
-            "go %s source package" % go.__version__, # summary
+            "go %s source package" % ver, # summary
             ["Featured", "Type-Archive"]) # labels
         if not url:
             raise MkError("couldn't upload sdsit to Google Code: %s (%s)"
@@ -131,6 +124,31 @@ class googlecode_upload(Task):
         import webbrowser
         webbrowser.open_new(project_url)
 
+class trentm_com_upload(Task):
+    """Upload webdist to trentm.com bits (in prep for updating trentm.com)."""
+    deps = ["webdist"]
+    def make(self):
+        ver = _get_version()
+        dist_dir = join(self.dir, "dist")
+
+        paths = [join(dist_dir, "go-%s%s" % (ver, ext))
+                 for ext in [".web"]]
+
+        # Upload the bits.
+        user = "trentm"
+        host = "trentm.com"
+        remote_dir = "~/data/bits/go/%s" % _get_version()
+        if sys.platform == "win32":
+            ssh = "plink"
+            scp = "pscp -unsafe"
+        else:
+            ssh = "ssh"
+            scp = "scp"
+        sh.run("%s %s@%s 'mkdir -p %s'" % (ssh, user, host, remote_dir),
+               self.log.info)
+        for path in paths:
+            sh.run("%s %s %s@%s:%s" % (scp, path, user, host, remote_dir),
+                   self.log.info)
 
 class todo(Task):
     """Print out todo's and xxx's in the docs area."""
@@ -157,6 +175,11 @@ class gow(Task):
 
 class docs(Task):
     """Regenerate some doc bits from project-info.xml."""
+    deps = ["src/trentm.com/project-info.xml"]
+    results = [
+        "README.txt",
+        "src/trentm.com/index.markdown"
+    ]
     def make(self):
         project_info_xml = join("src", "trentm.com", "project-info.xml")
         index_markdown = join("src", "trentm.com", "index.markdown")
@@ -345,6 +368,18 @@ def _paths_from_path_patterns(path_patterns, files=True, dirs="never",
 
             elif files and _should_include_path(path, includes, excludes):
                 yield path
+
+_g_version = None
+def _get_version():
+    global _g_version
+    if _g_version is None:
+        sys.path.insert(0, join(dirname(__file__), "lib"))
+        try:
+            import go
+            _g_version = go.__version__
+        finally:
+            del sys.path[0]
+    return _g_version
 
 def _setup_command_prefix():
     prefix = ""
