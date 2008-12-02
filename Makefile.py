@@ -116,7 +116,7 @@ class googlecode_upload(Task):
 
         sys.path.insert(0, join(self.dir, "lib"))
         import go
-        sdist_path = join(self.dir, "dist", "go-%s.tar.gz" % go.__version__)
+        sdist_path = join(self.dir, "dist", "go-%s.zip" % go.__version__)
         status, reason, url = googlecode_upload.upload_find_auth(
             sdist_path,
             "go-tool", # project_name
