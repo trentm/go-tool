@@ -5,8 +5,6 @@
     - Windows: check again
     - Mac OS X: check on clean machine
     - Linux: check on clean machine
-- update trentm.com/projects/... accordingly
-    - s/build.py/Makefile.py/
 - test with old drivers and version of script in the way. Do the install
   instructions result in the right thing?
 - re-org everything below here
