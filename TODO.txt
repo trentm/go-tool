@@ -12,8 +12,6 @@
 - re-org everything below here
 - nicer logging and std logging cmdln-options
 - optparse
-- play with "go --check-for-updates" to auto-update, if reasonable, or just
-  let know about update. Cheesy.
 - drop '-c|-cd' option? Redundant
 - improve `mk check_version` 
 - restore the DQSD install support. Perhaps just a separate install script

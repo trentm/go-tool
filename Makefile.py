@@ -32,10 +32,17 @@ class site(Task):
 class clean(Task):
     """Clean generated files and dirs."""
     def make(self):
-        for name in ["dist", "build", "MANIFEST"]:
-            path = join(self.dir, name)
-            if exists(path):
-                sh.rm(path)
+        patterns = [
+            "dist",
+            "build",
+            "MANIFEST",
+            "*.pyc",
+            "lib/*.pyc",
+        ]
+        for pattern in patterns:
+            p = join(self.dir, pattern)
+            for path in glob(p):
+                sh.rm(path, log=self.log)
 
 class sdist(Task):
     """python setup.py sdist"""
