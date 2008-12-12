@@ -10,6 +10,7 @@ import sys
 import os
 from os.path import join, dirname, normpath, abspath, exists, basename
 import re
+from glob import glob
 import webbrowser
 
 from mklib.common import MkError
