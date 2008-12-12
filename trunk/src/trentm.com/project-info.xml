@@ -2,13 +2,13 @@
 <project-info>
     <name>go</name>
     <tagline>quick directory switching</tagline>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <shortdesc>A small command for marking important directories and switching
     between them quickly. Think super-'cd'.</shortdesc>
     <logo>logo.jpg</logo>
 
     <downloads>
-        <download type="archive">http://go-tool.googlecode.com/files/go-1.1.0.zip</download>
+        <download type="archive">http://go-tool.googlecode.com/files/go-1.2.0.zip</download>
     </downloads>
 
     <home>http://trentm.com/projects/go/</home>
@@ -52,8 +52,8 @@
         `python setup.py install` in the unzipped directory, and (4) run
         `python -m go` to setup the shell driver:
 
-            unzip go-1.1.0.zip
-            cd go-1.1.0
+            unzip go-1.2.0.zip
+            cd go-1.2.0
             python setup.py install
             python -m go   # to setup shell integration
 
@@ -132,6 +132,10 @@
             See <http://trentm.com/projects/go/> for more information.
     ]]></gettingstarted>
     <changelog markup-type="markdown"><![CDATA[
+        ### v1.2.0
+        - Add support for "go FOO" falling back to changing to subdirectory
+          "FOO" if there is no "FOO" shortcut. Patch from Phil Schwartz.
+
         ### v1.1.0
         - Move to 'go-tool' Google Code project. (Couldn't use "go" because
           Google Code requires minimum 4 (or 3?) characters for a project

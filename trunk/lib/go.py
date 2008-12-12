@@ -47,7 +47,7 @@
 #   On Linux (or other UN*X systems) this is typically:
 #     ~/.go/shortcuts.xml
 
-__version_info__ = (1, 1, 0)
+__version_info__ = (1, 2, 0)
 __version__ = '.'.join(map(str, __version_info__))
 
 import os
@@ -238,6 +238,9 @@ def resolvePath(path):
             if path.startswith(home):
                 tag, suffix = '~', path[len(home)+1:]
                 target = shortcuts[tag]
+            elif os.path.isdir(path):
+                target = ""
+                suffix = path
             else:
                 raise
         if suffix:
