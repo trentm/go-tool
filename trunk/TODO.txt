@@ -5,6 +5,11 @@
     - Windows: check again
     - Mac OS X: check on clean machine
     - Linux: check on clean machine
+- ideas sort from http://daniele.livejournal.com/76011.html
+    go -2  # up two dirs, if "-2" doesn't actually exist
+    go -src  # walks up to a parent 'src' dir
+    go -k*   # like above, but with wildcards? not sure worth it
+             # or maybe just always do a prefix search
 - test with old drivers and version of script in the way. Do the install
   instructions result in the right thing?
 - re-org everything below here
