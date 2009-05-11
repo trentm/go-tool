@@ -47,7 +47,7 @@
 #   On Linux (or other UN*X systems) this is typically:
 #     ~/.go/shortcuts.xml
 
-__version_info__ = (1, 2, 0)
+__version_info__ = (1, 2, 1)
 __version__ = '.'.join(map(str, __version_info__))
 
 import os
@@ -418,7 +418,7 @@ your PATH:
 %s""" % _indent(driver)
 
         if candidates:
-            print "Candidate directories are:\n"
+            print "\nCandidate directories are:\n"
             for i, dir in enumerate(candidates):
                 print "  [%s] %s" % (i+1, dir)
 
@@ -519,7 +519,7 @@ def _query_custom_answers(question, answers, default=None):
     clean_answers = []
     for answer in answers:
         if '&' in answer and not answer.index('&') == len(answer)-1:
-            head, sep, tail = answer.partition('&')
+            head, tail = answer.split('&', 1)
             prompt_bits.append(head.lower()+tail.lower().capitalize())
             clean_answer = head+tail
             shortcut = tail[0].lower()
