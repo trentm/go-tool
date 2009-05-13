@@ -1,0 +1,56 @@
+#summary How to install go
+#labels Featured
+
+`Go` should work with Python 2.4, 2.5, 2.6, 2.7. I haven't yet put together a version for Python 3.
+
+
+= Do I have it installed? =
+
+If you have `go` installed you should be able to do this:
+
+{{{
+$ go --help
+...go usage info...
+}}}
+
+
+= What version do I have installed? =
+
+{{{
+$ go --version
+}}}
+
+
+= How do I install/upgrade? =
+
+Install with *one* of the following methods.
+
+  * Install *with pip* (if you have it):
+
+    `pip install go`
+
+    More on `pip` [http://pip.openplans.org/ here].
+
+  * Install *with easy_install* (if you have it):
+
+    `easy_install go`
+
+    See good instructions here for installing easy_install (part of setuptools) [http://turbogears.org/2.0/docs/main/DownloadInstall.html#setting-up-setuptools here].
+
+  * *Basic* (aka old school) installation:
+      # download the latest `go-$version.zip`
+      # unzip it
+      # run `python setup.py install` in the extracted directory
+    
+      For example, for version 1.2.1:
+      {{{
+wget -q http://go.googlecode.com/files/go-1.2.1.zip
+unzip go-1.2.1.zip
+cd go-1.2.1
+python setup.py install
+}}}
+
+
+= First-time Bash shell setup =
+
+TODO: describe
