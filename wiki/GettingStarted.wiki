@@ -40,8 +40,7 @@ and switching to directories using those shortcuts:
 }}}
 
 Run `go --help` for full usage details or just
-[http://code.google.com/p/go-tool/source/browse/trunk/lib/go.py take a look
-at the `go.py` script]:
+[http://code.google.com/p/go-tool/source/browse/trunk/lib/go.py take a look at the `go.py` script]:
 
 
 {{{
