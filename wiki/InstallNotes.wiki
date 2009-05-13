@@ -23,7 +23,7 @@ $ go --version
 
 = How do I install/upgrade? =
 
-Install with *one* of the following methods.
+Install with *one* of the following methods. (*WARNING*: I haven't tested this with pip and easy_install. In particular the `go.bat` driver script for Windows is necessary. I'd appreciate hearing from anyone successfully using `go` having installed via pip and/or easy_install.)
 
   * Install *with pip* (if you have it):
 
@@ -51,6 +51,9 @@ python setup.py install
 }}}
 
 
-= First-time Bash shell setup =
+= One-time Bash shell setup =
 
-TODO: describe
+For users of `go` in a shell other than Windows' `cmd.exe`, there is a necessary one-time setup. Typing `go' must end up calling the Bash function `go' and *not* `go.py'
+directly. This is how `go' can change the directory in your current shell. `go` will
+detect when this is the case and will walk you through the process of adding an
+appropriate `go` function to your environment.
