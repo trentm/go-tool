@@ -97,7 +97,7 @@ class pypi_upload(Task):
     """Upload release to pypi."""
     def make(self):
         tasks = (sys.platform == "win32"
-                 and "sdist --formats zip bdist_wininst upload"
+                 and "bdist_wininst upload"
                  or "sdist --formats zip upload")
         sh.run_in_dir("%spython setup.py %s" % (_setup_command_prefix(), tasks),
                       self.dir, self.log.debug)
