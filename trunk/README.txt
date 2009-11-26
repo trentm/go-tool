@@ -2,13 +2,13 @@ go -- quick directory switching
 ===============================
 
 Download the latest go packages from here:
-    (archive) http://go-tool.googlecode.com/files/go-1.2.0.zip
+    (archive) http://go-tool.googlecode.com/files/go-1.2.1.zip
 
 
 Home            : http://trentm.com/projects/go/
 License         : MIT (see LICENSE.txt)
 Platforms       : Windows, Linux, Mac OS X, Unix
-Current Version : 1.2
+Current Version : 1.2.1
 Dev Status      : mature
 Requirements    : Python >= 2.4 (http://www.activestate.com/ActivePython/)
 
@@ -52,8 +52,8 @@ Download the latest (1) `go` source package, (2) unzip it, (3) run
 `python setup.py install` in the unzipped directory, and (4) run
 `python -m go` to setup the shell driver:
 
-    unzip go-1.2.0.zip
-    cd go-1.2.0
+    unzip go-1.2.1.zip
+    cd go-1.2.1
     python setup.py install
     python -m go   # to setup shell integration
 
@@ -137,6 +137,9 @@ Run `go --help` for full usage details or just [take a look at the
 
 Change Log
 ----------
+
+### v1.2.1
+- Fix the helper command line "setup" code to work with Python 2.4.
 
 ### v1.2.0
 - Add support for "go FOO" falling back to changing to subdirectory

@@ -1,5 +1,7 @@
 # Brave new world
 
+- "python setup.py install" doesn't get me the newer version. E.g. on belt
+  (win32 work box) "go --version" is 1.0.6 -- still have a re-install.
 - get setup.py install working on all plats:
     - update to pypi then check
     - Windows: check again
@@ -10,6 +12,7 @@
     go -src  # walks up to a parent 'src' dir
     go -k*   # like above, but with wildcards? not sure worth it
              # or maybe just always do a prefix search
+- http://github.com/joelthelion/autojump  competition! :)
 - test with old drivers and version of script in the way. Do the install
   instructions result in the right thing?
 - re-org everything below here

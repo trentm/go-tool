@@ -14,7 +14,7 @@
 <div class="download-box">
 <strong>Download</strong>
 <ul>
-<li> <a href="http://go-tool.googlecode.com/files/go-1.2.0.zip">go 1.2 archive package</a> </li>
+<li> <a href="http://go-tool.googlecode.com/files/go-1.2.1.zip">go 1.2.1 archive package</a> </li>
 </ul> </div>
 
 <table class="attrlist">
@@ -34,7 +34,7 @@
 </tr>
 <tr>
     <th>Current Version</th>
-    <td>1.2 <span class="remark"><a href="#whatsnew">What's new?</a></span></td>
+    <td>1.2.1 <span class="remark"><a href="#whatsnew">What's new?</a></span></td>
 </tr>
 <tr>
     <th>Dev Status</th>
@@ -85,8 +85,8 @@ Download the latest (1) `go` source package, (2) unzip it, (3) run
 `python setup.py install` in the unzipped directory, and (4) run
 `python -m go` to setup the shell driver:
 
-    unzip go-1.2.0.zip
-    cd go-1.2.0
+    unzip go-1.2.1.zip
+    cd go-1.2.1
     python setup.py install
     python -m go   # to setup shell integration
 
@@ -170,6 +170,9 @@ Run `go --help` for full usage details or just [take a look at the
 
 <h2 id="changelog">Change Log</h2>
 
+
+### v1.2.1
+- Fix the helper command line "setup" code to work with Python 2.4.
 
 ### v1.2.0
 - Add support for "go FOO" falling back to changing to subdirectory
