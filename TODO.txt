@@ -20,8 +20,6 @@
 - optparse
 - drop '-c|-cd' option? Redundant
 - improve `mk check_version` 
-- restore the DQSD install support. Perhaps just a separate install script
-  in src/dqsd?
 - drop win9x-isms
 - conventions for specifying min Python version? min Py ver is 2.4 here
   (for `python -m` support).
