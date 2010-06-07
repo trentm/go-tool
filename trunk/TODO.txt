@@ -23,6 +23,8 @@
 - drop win9x-isms
 - conventions for specifying min Python version? min Py ver is 2.4 here
   (for `python -m` support).
+- look at 'z' (http://github.com/rupa/z, bash only, `z foo` to go to a recent
+  dir matching 'foo', hooks into regular cd'ing, cool)
 
 # High Priority
 
