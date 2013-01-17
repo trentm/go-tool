@@ -57,8 +57,6 @@ Download the latest (1) `go` source package, (2) unzip it, (3) run
     python setup.py install
     python -m go   # to setup shell integration
 
-If your install fails then please visit [the Troubleshooting
-FAQ](http://trentm.com/faq.html#troubleshooting-python-package-installation).
 
 
 Getting Started
