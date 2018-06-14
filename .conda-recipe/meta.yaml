@@ -1,0 +1,20 @@
+source:
+  git_url: ../ 
+
+package:
+  name: go-tool
+  version: 1.2.2 
+
+build:
+  # If this is a new build for the same version, increment the build
+  # number. If you do not include this key, it defaults to 0.
+  number: 0 
+  noarch: python
+  script: python setup.py install --record record.txt
+requirements:
+  build:
+    - python
+
+about:
+  licence: MIT
+  url: https://github.com/trentm/go-tool
