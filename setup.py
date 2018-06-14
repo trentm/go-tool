@@ -34,7 +34,7 @@ if sys.version_info < (2, 3):
     # Distutils before Python 2.3 doesn't accept classifiers.
     _setup = setup
     def setup(**kwargs):
-        if kwargs.has_key("classifiers"):
+        if "classifiers" in kwargs:
             del kwargs["classifiers"]
         _setup(**kwargs)
 
@@ -51,7 +51,7 @@ setup(
     py_modules=["go"],
     package_dir={"": "lib"},
     description=doclines[0],
-    classifiers=filter(None, classifiers.split("\n")),
+    classifiers=[_f for _f in classifiers.split("\n") if _f],
     long_description="\n".join(doclines[2:]),
 )
 

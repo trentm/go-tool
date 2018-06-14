@@ -97,7 +97,7 @@ class pypi_upload(Task):
     """Upload release to pypi."""
     def make(self):
         tasks = (sys.platform == "win32"
-                 and "bdist_wininst upload"
+                 and "sdist --formats zip bdist_wininst upload"
                  or "sdist --formats zip upload")
         sh.run_in_dir("%spython setup.py %s" % (_setup_command_prefix(), tasks),
                       self.dir, self.log.debug)
@@ -174,7 +174,7 @@ class todo(Task):
 
         path = join(self.dir, "TO""DO.txt")
         todos = re.compile("^- ", re.M).findall(open(path, 'r').read())
-        print "(plus %d TODOs from TO""DO.txt)" % len(todos)
+        print("(plus %d TODOs from TO""DO.txt)" % len(todos))
 
     def _dump_pattern_in_path(self, pattern, path):
         os.system("grep -nH '%s' '%s'" % (pattern, path))
@@ -326,7 +326,7 @@ def _paths_from_path_patterns(path_patterns, files=True, dirs="never",
     from os.path import basename, exists, isdir, join
     from glob import glob
 
-    assert not isinstance(path_patterns, basestring), \
+    assert not isinstance(path_patterns, str), \
         "'path_patterns' must be a sequence, not a string: %r" % path_patterns
     GLOB_CHARS = '*?['
 

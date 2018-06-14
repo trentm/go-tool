@@ -1,26 +1,12 @@
 go -- quick directory switching
 ===============================
 
-Download the latest go packages from here:
-    (archive) http://go-tool.googlecode.com/files/go-1.2.1.zip
-
-
-Home            : http://trentm.com/projects/go/
+Home            : https://github.com/trentm/go-tool
 License         : MIT (see LICENSE.txt)
 Platforms       : Windows, Linux, Mac OS X, Unix
-Current Version : 1.2.1
+Current Version : 1.2.2
 Dev Status      : mature
-Requirements    : Python >= 2.4 (http://www.activestate.com/ActivePython/)
-
-
-What's new?
------------
-
-I have moved hosting of `go.py` from my [personal
-pages](http://trentm.com/projects/) to the [go-tool Google Code
-project](http://code.google.com/p/go-tool/).  See the [Change
-Log](#changelog) below for more.
-
+Requirements    : Python >= 2.4 and Python 3
 
 Why go?
 -------
@@ -39,6 +25,16 @@ and
     C:\> go ko/test
     D:\trentm\main\Apps\Komodo-devel\test>
 
+In addition, go supports resolving unique prefixes of both shortcuts 
+and path components.  So the above example could also be written as:
+
+    C:\> go k/t
+    D:\trentm\main\Apps\Komodo-devel\test>
+
+This is assuming that no other shortcut starts with "k" and the 
+Komodo-devel directory contains no other directory (files are OK)
+that starts with "t".
+
 Think of it as a super `cd`. 
 
 `go` is free (MIT License).  Please send any feedback to [Trent
@@ -52,10 +48,26 @@ Download the latest (1) `go` source package, (2) unzip it, (3) run
 `python setup.py install` in the unzipped directory, and (4) run
 `python -m go` to setup the shell driver:
 
-    unzip go-1.2.1.zip
-    cd go-1.2.1
+    unzip go-1.2.2.zip
+    cd go-1.2.2
     python setup.py install
     python -m go   # to setup shell integration
+
+If your install fails then please visit [the Troubleshooting
+FAQ](http://trentm.com/faq.html#troubleshooting-python-package-installation).
+
+Please note that the "go.bat" file for use with Windows cmd.exe does not work
+with Powershell.  To use go with Windows Powershell, you must set an environment 
+variable to indicate your shell.  You can do this by adding the following line 
+to your Powershell profile:
+
+    $env:SHELL = "powershell"
+
+You can then run the following from the Powershell prompt to apply the change
+and generate the "go.ps1" wrapper:
+
+    . $profile
+    python -m go
 
 
 
@@ -136,8 +148,23 @@ Run `go --help` for full usage details or just [take a look at the
 Change Log
 ----------
 
-### v1.2.1
-- Fix the helper command line "setup" code to work with Python 2.4.
+### v1.2.2
+- Add Python 3 support
+
+### The following changes were merged from a fork by Peter Geer
+(http://hg.skepticats.com/go-posh)
+- Add support for Powershell
+- Add built-in shortcut "-" pointing to the OLDPWD environment 
+  variable (uses built-in shell support in UNIX, emulates in Windows)
+- When invoked without any argument, change to home directory
+- Resolve unique prefixes of shortcuts
+- Resolve unique prefixes of path components.  For example, if "f" is a 
+  shortcut for C:\foo and C:\foo\bar\bazz exists, "go f/b/b" will go to it
+- Detect home directory in Windows via USERPROFILE
+- Make -o option work without win32api bindings and function on other 
+  platforms (use FILE_MANAGER env var on UNIX)
+- Make -o option apply to current directory when no argument is given
+- Add -p option to print the resolved shortcut path rather than cd to it
 
 ### v1.2.0
 - Add support for "go FOO" falling back to changing to subdirectory
