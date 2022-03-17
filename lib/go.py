@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Copyright (c) 2002-2008 ActiveState Software.
 # License: MIT License.
 # Author: Trent Mick (trentm at google's mail thing)
@@ -88,8 +88,8 @@ _subsystem = "console"
 if sys.platform.startswith("win") and\
    os.path.splitext(sys.executable)[0][-1] == 'w':
     _subsystem = "windows"
-    
-    
+
+
 _gDriverFromShell = {
     "cmd": """\
 @echo off
@@ -158,7 +158,7 @@ def getDefaultShortcuts():
 
 def setShortcut(name, value):
     """Add the given shortcut mapping to the XML database.
-    
+
         <shortcuts version="...">
             <shortcut name="..." value="..."/>
         </shortcuts>
@@ -249,7 +249,7 @@ def resolvePath(path):
         raise GoError("no path was given")
 
     return target
-    
+
 
 def generateShellScript(scriptName, path=None):
     """Generate a shell script with the given name to change to the
@@ -310,7 +310,7 @@ def printShortcuts(shortcuts, subheader=None):
                 grouped[title] = [shortcut]
     for memberList in grouped.values(): memberList.sort()
     groups = []
-    titles = groupMap.values()
+    titles = list(groupMap.values())
     titles.sort()
 
     # Construct the table.
@@ -336,7 +336,7 @@ def printShortcuts(shortcuts, subheader=None):
         import win32con
         win32ui.MessageBox(table, "Go Shortcuts",
                            win32con.MB_OK | win32con.MB_ICONINFORMATION)
-        
+
     else:
         sys.stdout.write(table)
 
@@ -502,7 +502,7 @@ Thanks!""" % (_indent(_gDriverFromShell["sh"]), shell))
 # Recipe: query_custom_answers (1.0)
 def _query_custom_answers(question, answers, default=None):
     """Ask a question via raw_input() and return the chosen answer.
-    
+
     @param question {str} Printed on stdout before querying the user.
     @param answers {list} A list of acceptable string answers. Particular
         answers can include '&' before one of its letters to allow a
@@ -510,7 +510,7 @@ def _query_custom_answers(question, answers, default=None):
         "&quit"]. All answer strings should be lowercase.
     @param default {str, optional} A default answer. If no default is
         given, then the user must provide an answer. With a default,
-        just hitting <Enter> is sufficient to choose. 
+        just hitting <Enter> is sufficient to choose.
     """
     prompt_bits = []
     answer_from_valid_choice = {
@@ -706,7 +706,7 @@ def main(argv):
             if os.path.basename(comspec).lower() == "cmd.exe":
                 argv += ["&&", "title", '%s' % dir]
             os.spawnv(os.P_NOWAIT, comspec, argv)
-            
+
         else:
             error("Internal error: subsystem is 'windows' and platform is "
                   "not win32")
@@ -751,7 +751,7 @@ def main(argv):
     else:
         error("Internal Error: unknown action: '%s'\n")
         return 1
-        
+
 
 if __name__ == "__main__":
     if _subsystem == "windows":
