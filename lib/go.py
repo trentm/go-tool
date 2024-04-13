@@ -91,7 +91,7 @@ if sys.platform.startswith("win") and\
 
 
 _gDriverFromShell = {
-    "cmd": """\
+    "cmd": r"""\
 @echo off
 rem Windows shell driver for 'go' (http://code.google.com/p/go-tool/).
 set GO_SHELL_SCRIPT=%TEMP%\__tmp_go.bat
